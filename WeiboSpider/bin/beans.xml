@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans.xsd
+      http://www.springframework.org/schema/context
+      http://www.springframework.org/schema/context/spring-context.xsd">
+	<!-- 通过注解方式——自动注入 -->
+	<context:annotation-config />
+	<context:component-scan base-package="autoPage" />
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+               <!--引入文件-->
+                <value>parameter.properties</value>
+            </list>
+        </property>
+    </bean>
+	<!-- BoneCP configuration -->
+	<!-- Spring bean configuration. Tell Spring to bounce off BoneCP -->
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy">
+		<property name="targetDataSource">
+			<ref local="mainDataSource" />
+		</property>
+	</bean>
+	<bean id="mainDataSource" class="com.jolbox.bonecp.BoneCPDataSource"
+		destroy-method="close">
+		<property name="driverClass" value="com.mysql.jdbc.Driver" />
+		<property name="jdbcUrl" value="${jdbcurl}" />
+		<property name="username" value="${jdbcUsername}" />
+		<property name="password" value="${jdbcPassword}" />
+		<property name="idleConnectionTestPeriod" value="60" />
+		<property name="idleMaxAge" value="240" />
+		<property name="maxConnectionsPerPartition" value="30" />
+		<property name="minConnectionsPerPartition" value="10" />
+		<property name="partitionCount" value="3" />
+		<property name="acquireIncrement" value="5" />
+		<property name="statementsCacheSize" value="100" />
+		<property name="releaseHelperThreads" value="3" />
+	</bean>
+	
+	<!-- 任务DB服务操作 -->
+	<bean id="task_Service" class="com.weibocrawl.service.TaskDBService">
+		<property name="db" ref="dbUtil"></property>
+		<property name="loadCount" value="${loadCount}"></property> <!-- 每次从数据库中读取多少任务数 -->
+		<property name="taskFilePath"> 
+			<value>D:\title2.sql</value> 
+		</property>
+	</bean>
+	
+	<!-- 数据库操作工具 -->
+	<bean id="dbUtil" class="com.weibocrawl.utils.DBUtil"></bean>
+	
+	<!-- 任务控制队列 -->
+	<bean id="task_Queue" class="com.weibocrawl.memory.TaskQueue">
+	</bean>
+	
+	<!-- cookie DB管理 -->
+	<bean id="cookie_DB" class="com.weibocrawl.service.CookieDBService">
+	</bean>
+	
+	<!-- Cookie内存管理-->
+	<bean id="memory_cookie" class="com.weibocrawl.memory.MemoryCookie">
+		<property name="cookieDB" ref="cookie_DB"></property>
+		<property name="mailSend" ref="mail_factory"></property>
+	</bean>
+	
+	<!-- 抓取前处理控制中心,每次产生不同实例 -->
+	<bean id="pre_handler" class="com.weibocrawl.prehandler.PreHandler" >
+		<property name="memoryCookie" ref="memory_cookie"></property>
+	</bean>
+	
+	<!-- 写入处理器 -->
+	<bean id="writte" class="com.weibocrawl.writter.Writter">
+	<property name="db" ref="dbUtil"></property>
+	</bean>
+	
+	<!-- 抽取控制中心 -->
+	<bean id="extractor" class="com.weibocrawl.extractor.SinaExtractor">
+		<property name="taskDBservice" ref="task_Service"></property>
+		<property name="writter" ref="writte"></property>
+		<property name="synTaskControll" ref="syn_task"></property>
+	</bean>
+	
+	<!-- 任务同步控制中心 -->
+	<bean id="syn_task" class="com.weibo.controller.SynTaskController">
+		<property name="taskDBService" ref="task_Service"></property>
+		<property name="crawlMaxPage" value="${crawlMaxPage}"></property> <!-- 每个任务 最多抓取多少页码-->
+	</bean>
+	
+	<!-- 核心抓取控制模块 -->
+	<bean id="crawl_Controller" class="com.weibo.controller.SinaCrawlController" scope="prototype">
+		<property name="taskQueue" ref="task_Queue" ></property>
+		<property name="preHandler" ref="pre_handler"></property>
+		<property name="extractor" ref="extractor"></property>
+		<property name="synTaskControll" ref="syn_task"></property>
+		
+		<property name="mailSend" ref="mail_factory"></property>
+	</bean>
+	
+	<!-- 内存数据备份处理 -->
+	<bean id="check_point" class="com.weibo.moniter.CheckPoint">
+		<property name="backPath" value="./backup.bat"><!-- 内存数据备份文件路径，注意linux和windows下路径的写法 -->
+		</property>
+	</bean>
+	
+	<!-- 任务生产中心 -->                                                        
+	<bean id="producer" class="com.weibo.controller.ProducerController" scope="prototype">
+	<property name="taskDBService" ref="task_Service"></property>
+	<property name="amount" value="${backUpTime}"></property><!-- 60s备份一次内存数据 -->
+	<property name="checkPoint" ref="check_point"></property>
+	</bean>
+	
+	<!--  线程池控制中心-->
+	<bean id="threadPool" class="com.weibo.spring.CrawlPool">
+		<property name="poolThreadCount" value="${poolThreadCount}"></property>
+		<property name="producerThreadCount"  value="${producerThreadCount}"></property>
+		<property name="crawlThreadCount"  value="${crawlThreadCount}"></property>
+		<property name="crawlControll"  ref="crawl_Controller"></property>
+		<property name="producerControll"  ref="producer"></property>
+	</bean>
+</beans>

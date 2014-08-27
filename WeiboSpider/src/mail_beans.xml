@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans.xsd
+      http://www.springframework.org/schema/context
+      http://www.springframework.org/schema/context/spring-context.xsd">
+	<!-- 通过注解方式——自动注入 -->
+	<context:annotation-config />
+	<context:component-scan base-package="autoPage" />
+	<bean id="mail" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <!-- SMTP发送邮件的服务器的IP和端口 -->
+        <property name="host" value="smtp.zoho.com"/>
+        <property name="port" value="25"/>
+        <!-- 登陆SMTP邮件发送服务器的用户名和密码 -->
+        <property name="username" value="pangjuntao@bimoku.com"/>
+        <property name="password" value="pangjuntao"/>
+        <!-- 获得邮件会话属性,验证登录邮件服务器是否成功-->
+        <property name="javaMailProperties">
+             <props>
+                 <prop key="mail.smtp.auth">true</prop>
+                 <prop key="mail.smtp.timeout">25000</prop>
+                 <prop key="mail.smtp.port">465</prop>
+                 <prop key="mail.smtp.socketFactory.port">465</prop> 
+                 <prop key="mail.smtp.socketFactory.fallback">false</prop>
+                  <prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+             </props>
+        </property>
+</bean>
+<bean id="mail_factory" class="com.weibo.moniter.MailSender">
+<property name="mailSender" ref="mail"></property>
+<!-- 默认发送方邮箱地址,需要和上面的username属性值一样 -->
+<property name="mailSenderFrom" value="pangjuntao@bimoku.com"></property>
+<!-- 默认接收方地址 -->
+<property name="mailSenderTo" value="pangjuntaoer@qq.com"></property>
+</bean>
+</beans>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="lib" path="D:/work/WeiboSpider/lib/activation.jar"/>
+	<classpathentry kind="lib" path="D:/work/WeiboSpider/lib/bonecp-0.7.1.RELEASE.jar"/>
+	<classpathentry kind="lib" path="D:/work/WeiboSpider/lib/commons-codec-1.3.jar"/>
+	<classpathentry kind="lib" path="D:/work/WeiboSpider/lib/commons-codec-1.5.jar"/>
+	<classpathentry kind="lib" path="D:/work/WeiboSpider/lib/commons-lang-2.4.jar"/>
+	<classpathentry kind="lib" path="D:/work/WeiboSpider/lib/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="D:/work/WeiboSpider/lib/commons-net-1.4.1.jar"/>
+	<classpathentry kind="lib" path="D:/work/WeiboSpider/lib/dom4j-2.0.0-ALPHA-2.jar"/>
+	<classpathentry kind="lib" path="D:/work/WeiboSpider/lib/fastjson-1.1.24.jar"/>
+	<classpathentry kind="lib" path="D:/work/WeiboSpider/lib/guava-12.0.jar"/>
+	<classpathentry kind="lib" path="D:/work/WeiboSpider/lib/hadoop-core-1.0.3.jar"/>
+	<classpathentry kind="lib" path="D:/work/WeiboSpider/lib/httpclient-4.1.3.jar"/>
+	<classpathentry kind="lib" path="D:/work/WeiboSpider/lib/httpcore-4.1.4.jar"/>
+	<classpathentry kind="lib" path="D:/work/WeiboSpider/lib/httpmime-4.1.3.jar"/>
+	<classpathentry kind="lib" path="D:/work/WeiboSpider/lib/javax.mail.jar"/>
+	<classpathentry kind="lib" path="D:/work/WeiboSpider/lib/jaxen-1.1.3.jar"/>
+	<classpathentry kind="lib" path="D:/work/WeiboSpider/lib/jsoup-1.6.1.jar"/>
+	<classpathentry kind="lib" path="D:/work/WeiboSpider/lib/log4j-1.2.16.jar"/>
+	<classpathentry kind="lib" path="D:/work/WeiboSpider/lib/mmseg4j-1.8.5.1-dic.jar"/>
+	<classpathentry kind="lib" path="D:/work/WeiboSpider/lib/mysql-connector-java-5.1.18.jar"/>
+	<classpathentry kind="lib" path="D:/work/WeiboSpider/lib/slf4j-api-1.6.4.jar"/>
+	<classpathentry kind="lib" path="D:/work/WeiboSpider/lib/slf4j-log4j12-1.6.4.jar"/>
+	<classpathentry kind="lib" path="D:/work/WeiboSpider/lib/solr-solrj-3.4.0.jar"/>
+	<classpathentry kind="lib" path="D:/work/WeiboSpider/lib/spring-beans-3.2.3.RELEASE.jar"/>
+	<classpathentry kind="lib" path="D:/work/WeiboSpider/lib/spring-context-3.2.3.RELEASE.jar"/>
+	<classpathentry kind="lib" path="D:/work/WeiboSpider/lib/spring-context-support-3.2.3.RELEASE.jar" sourcepath="C:/Users/Pery/.m2/repository/org/springframework/spring-context-support/3.2.3.RELEASE/spring-context-support-3.2.3.RELEASE-sources.jar"/>
+	<classpathentry kind="lib" path="D:/work/WeiboSpider/lib/spring-core-3.2.3.RELEASE.jar"/>
+	<classpathentry kind="lib" path="D:/work/WeiboSpider/lib/spring-expression-3.2.3.RELEASE.jar"/>
+	<classpathentry kind="lib" path="D:/work/WeiboSpider/lib/spring-jdbc-3.2.3.RELEASE.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
