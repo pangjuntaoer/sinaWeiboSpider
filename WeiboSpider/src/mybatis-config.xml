@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE configuration
+    PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- <settings>
+		<setting name="useGeneratedKeys" value="true" />
+	</settings> -->
+	<typeAliases>
+		<package name="com.swust.model"/>
+	</typeAliases>
+	<plugins>
+		<plugin
+			interceptor="com.qunar.base.meerkat.orm.mybatis.support.ResultSetHandlerInterceptor"></plugin>
+		<plugin
+			interceptor="com.qunar.base.meerkat.orm.mybatis.support.StatementHandlerInterceptor"></plugin>
+	</plugins>	
+</configuration>

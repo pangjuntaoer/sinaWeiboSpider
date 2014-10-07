@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="depaItem">
+
+<insert id="insertIntoUserItem" parameterType="java.util.List">
+	INSERT IGNORE userItem 
+	(	
+        user_id,
+        item_id,
+        rating,
+        tast,
+        environment,
+        service,
+        times,
+        review
+	)
+   	values 
+    <foreach collection="list" index="index" item="item" separator=","> 
+	(
+        #{item.userId,jdbcType=VARCHAR},
+        #{item.itemId,jdbcType=VARCHAR},
+        #{item.rating,jdbcType=VARCHAR},
+        #{item.tast,jdbcType=VARCHAR},
+        #{item.environment,jdbcType=VARCHAR},
+        #{item.service,jdbcType=VARCHAR},
+        #{item.times,jdbcType=VARCHAR},
+        #{item.review,jdbcType=VARCHAR}
+	)
+    </foreach>
+</insert>
+<insert id="insertIntoItem" parameterType="java.util.List">
+	INSERT IGNORE item 
+	(	
+        id,
+        name,
+        star,
+        cost,
+        tast,
+        environment,
+        service,
+        review_count
+	)
+   	values 
+    <foreach collection="list" index="index" item="item" separator=","> 
+	(
+        #{item.id,jdbcType=VARCHAR},
+        #{item.name,jdbcType=VARCHAR},
+        #{item.star,jdbcType=VARCHAR},
+        #{item.cost,jdbcType=VARCHAR},
+        #{item.tast,jdbcType=VARCHAR},
+        #{item.environment,jdbcType=VARCHAR},
+        #{item.service,jdbcType=VARCHAR},
+        #{item.reviewCount,jdbcType=VARCHAR}
+	)
+    </foreach>
+</insert>    
+
+<select id="selectTraindata" resultType="com.swust.app.DataModel">
+select 
+t.user_id as userId,
+t.item_id as itemId,
+t.rating as rating,
+t.times as date,
+i.name as itemName
+from
+train_data t,item i
+where
+t.item_id=i.id
+</select>
+
+<select id="selectUsers" resultType="Long">
+SELECT DISTINCT user_id FROM train_data
+</select>
+<select id="selectItems" resultType="Long">
+SELECT DISTINCT item_id FROM train_data
+</select>
+</mapper>
